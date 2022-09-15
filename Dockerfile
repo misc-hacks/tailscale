@@ -27,7 +27,7 @@ ENV DERP_STUN true
 ENV DERP_VERIFY_CLIENTS false
 # ==========================
 
-CMD bash /app/build_cert.sh $DERP_HOST $DERP_CERTS /app/san.conf
+CMD bash /app/build_cert.sh $DERP_HOST $DERP_CERTS /app/san.conf \
     && /app/derper --hostname=$DERP_HOST \
         --certmode=manual \
         --certdir=$DERP_CERTS \
