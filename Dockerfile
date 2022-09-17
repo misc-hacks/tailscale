@@ -23,18 +23,19 @@ COPY --from=builder /app/derper /app/derper
 # ========= CONFIG =========
 ENV DERP_HOST=127.0.0.1
 ENV DERP_CERTS=/app/certs/
-ENV DERP_VERIFY_CLIENTS false
+ENV DERP_VERIFY_CLIENTS=false
 ENV DERP_PORT=443
 ENV DERP_USE_STUN=true
 ENV DERP_STUN=3478
 # ==========================
 
 CMD bash /app/build_cert.sh $DERP_HOST $DERP_CERTS /app/san.conf \
-    && /app/derper --hostname=$DERP_HOST \
+    && /app/derper \
+        --hostname=$DERP_HOST \
         --certmode=manual \
         --certdir=$DERP_CERTS \
         --verify-clients=$DERP_VERIFY_CLIENTS \
-        --http-port -1 \
-        --stun $DERP_USE_STUN \
-        --stun-port $DERP_STUN \
+        --http-port=-1 \
+        --stun=$DERP_USE_STUN \
+        --stun-port=$DERP_STUN \
         -a ":$DERP_PORT"
